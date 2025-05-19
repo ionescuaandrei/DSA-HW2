@@ -1,4 +1,3 @@
-
 #include <vector>
 #include <string>
 #include <iostream>
@@ -7,7 +6,7 @@ using namespace std;
 
 void dfs(int node, int k, vector<vector<bool>> &visited, string &result, int n) {
     for (int d = 0; d < k; ++d) {
-        int next = (node * k + d) % (1 << (n - 1));
+        int next = (node * k + d) % (int)pow(k,n-1);
         if (!visited[node][d]) {
             visited[node][d] = true;
             dfs(next, k, visited, result, n);
@@ -15,6 +14,8 @@ void dfs(int node, int k, vector<vector<bool>> &visited, string &result, int n) 
         }
     }
 }
+
+// De Bruijn: https://media.geeksforgeeks.org/wp-content/uploads/de-bruijn-graph-300x174.png
 
 string generate_sequence(int n, int k) {
     int num_nodes = pow(k,n);
