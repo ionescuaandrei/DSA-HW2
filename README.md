@@ -14,54 +14,99 @@ The project consists of three main exercises, each implemented using specific da
 
 ## 📘 Problem Descriptions
 
-### 🧩 1. Digital Combo Lock (3.5p)
+### 🧩 1. Digital Combo Lock
 
-**Data Structure Used:** Graph (De Bruijn Graph)  
-**Problem:**  
-Generate the shortest possible sequence of digits of length `k` using a digit range [0, k-1] such that every possible combination of length `n` appears at least once as a substring.
+**Points:** 3.5  
+**Data Structure Used:** De Bruijn Graph (Graph Traversal)
 
-**Example:**  
-For `n=2`, `k=2`, the output may be `"00110"` which covers: `00`, `01`, `11`, and `10`.
+#### 📝 Problem:
+You must generate the shortest sequence of digits such that every possible combination of `n` digits over an alphabet of `k` digits (from `0` to `k-1`) appears as a substring. The lock checks the last `n` digits continuously.
 
-**Goal:**  
-Implement an efficient algorithm that uses graph traversal (e.g., Eulerian path on De Bruijn graph) to generate the sequence.
+This is equivalent to generating a **De Bruijn sequence**.
 
----
+#### 🧪 Example:
+- `n = 2, k = 2` → Output: `"00110"` (substrings: `00`, `01`, `11`, `10`)
 
-### 🏰 2. Castle Defence (3p)
-
-**Data Structure Used:** Binary Tree  
-**Problem:**  
-Place dragons in a binary tree of cities such that every city is either protected directly or by its parent/child.
-
-**Rules:**
-- A dragon protects: the city it's in, its parent, and its children.
-- Goal is to minimize the number of dragons placed.
-
-**Approach:**  
-Post-order traversal with dynamic programming to determine the minimum number of dragons required for full coverage.
+#### 💡 Solution:
+- Model the problem as a De Bruijn graph.
+- Use a modified **DFS or Hierholzer’s Algorithm** to find an Eulerian path.
+- Construct the final sequence from this traversal.
 
 ---
 
-### ⚙️ 3. Core Scheduling with Deadlines and Dependency Cycles (3.5p)
+### 🏰 2. Castle Defence
 
-**Data Structure Used:** Directed Graph (Task Dependency Graph)  
-**Problem:**  
-Given a set of tasks with deadlines and dependencies, schedule them on different cores to minimize energy consumption.
+**Points:** 3.0  
+**Data Structure Used:** Binary Tree
 
-**Requirements:**
-- Detect and handle cycles (2-node cycles can be scheduled in parallel, longer cycles invalidate the schedule).
-- Schedule tasks while respecting:
-  - Dependency constraints
-  - Deadlines
-  - Core capabilities (speed and energy use)
+#### 📝 Problem:
+Given a tree of cities where each node represents a city, place dragons in such a way that every city is either:
+- Protected directly (a dragon is placed there),
+- Protected by its parent, or
+- Protected by one of its children.
 
-**Input:** `input.txt` containing task specs, dependencies, and core information.  
-**Output:** Minimum energy consumption and task schedule or failure message.
+Your goal is to **minimize** the number of dragons.
+
+#### 💡 Solution:
+- Traverse the binary tree using **post-order DFS**.
+- Use 3 states at each node:
+  1. Node has a dragon.
+  2. Node is covered by a dragon.
+  3. Node is not yet covered.
+- Only place a dragon if its children are not covered.
+
+This is a greedy tree DP problem similar to the **minimum vertex cover**.
+
+---
+### ⚙️ 3. Core Scheduling
+
+**Points:** 3.5  
+**Data Structure Used:** Directed Graph (Dependency Graph)
+
+#### 📝 Problem:
+Given a set of tasks, each with:
+- A workload,
+- A deadline, and
+- Dependencies (A must complete before B),
+
+Assign them to **heterogeneous cores** (different speed/power) so that:
+- All dependencies are respected,
+- Deadlines are met,
+- **Total energy is minimized.**
+
+Tasks with **2-way circular dependencies** must be scheduled to start simultaneously on separate cores. Tasks in **larger cycles** make scheduling impossible.
+
+#### 🔍 Input:
+- `input.txt` includes:
+  - Number of tasks, their workloads & deadlines
+  - Dependencies
+  - Core types (speed, power usage)
+
+#### 💡 Solution:
+1. **Cycle Detection**
+   - Use DFS or topological sort to detect:
+     - **Valid DAG**: proceed to scheduling
+     - **2-node cycle**: handle with parallel execution
+     - **Larger cycle**: no solution possible
+
+2. **Scheduling Algorithm**
+   - Use **state-space search** (priority queue) to track:
+     - When each task can start
+     - What core it uses
+     - Total energy consumed
+
+3. **Energy Calculation**
+   - Execution time = `workload / speed`
+   - Energy = `execution time * power`
+
+If no valid schedule exists, print a failure message.
+
+#### ✅ Output:
+- Minimum energy consumed
+- Per-task schedule: task ID, core ID, start time, end time, energy used
 
 ---
 
 ## ▶️ How to Run the Code
 
 Each exercise can be compiled and run independently.
-
