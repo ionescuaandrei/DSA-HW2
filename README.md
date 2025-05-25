@@ -2,7 +2,8 @@
 
 **Course:** Data Structures and Algorithms  
 **University:** University POLITEHNICA of Bucharest (UPB)  
-**Student:** Andrei Ionescu, Stancu Stefanita ionut
+**Student:** Andrei Ionescu, Stancu Stefanita Ionut - group 1211ED
+
 **Deadline:** May 26, 2025, 08:00 AM  
 **Repository:** [DSA-HW2 on GitHub](https://github.com/ionescuaandrei/DSA-HW2)
 
